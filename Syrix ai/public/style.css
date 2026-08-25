@@ -1,0 +1,29 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #0d1117;
+  color: #f0f6fc;
+  text-align: center;
+  padding: 20px;
+}
+textarea {
+  width: 80%;
+  height: 100px;
+  margin: 10px;
+  background: #161b22;
+  color: #f0f6fc;
+  border: 1px solid #30363d;
+}
+button {
+  padding: 10px 20px;
+  background: #238636;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+pre {
+  text-align: left;
+  background: #161b22;
+  padding: 20px;
+  margin-top: 20px;
+  border: 1px solid #30363d;
+}

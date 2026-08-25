@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Syrix AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>🤖 Syrix AI</h1>
+  <textarea id="prompt" placeholder="Pose ta question..."></textarea>
+  <button onclick="askSyrix()">Envoyer</button>
+  <pre id="response"></pre>
+
+  <script>
+    async function askSyrix() {
+      const prompt = document.getElementById("prompt").value;
+      const res = await fetch("/api/syrix", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
+      });
+      const data = await res.json();
+      document.getElementById("response").textContent = data.reply;
+    }
+  </script>
+</body>
+</html>
