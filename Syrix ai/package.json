@@ -1,0 +1,16 @@
+{
+  "name": "syrix-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Interface web minimaliste pour interroger Ollama",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "setup": "node vpssetup.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "node-ssh": "^13.2.1"
+  }
+}
