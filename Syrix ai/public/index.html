@@ -1,27 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Syrix AI</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Syrix AI, votre assistant local propulsé par Ollama">
+  <title>Syrix AI — Assistant local</title><link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>🤖 Syrix AI</h1>
-  <textarea id="prompt" placeholder="Pose ta question..."></textarea>
-  <button onclick="askSyrix()">Envoyer</button>
-  <pre id="response"></pre>
-
+  <main class="shell">
+    <header><div class="logo">✦</div><div><p class="eyebrow">SYRIX VISION COMPANY</p><h1>Syrix <span>AI</span></h1></div><div id="status" class="status">● prêt</div></header>
+    <section class="hero"><p class="eyebrow">ASSISTANT LOCAL</p><h2>Une idée claire,<br><em>une réponse utile.</em></h2><p class="intro">Posez votre question à votre assistant propulsé par Ollama.</p></section>
+    <form id="chat-form" class="composer"><label for="prompt">Votre message</label><textarea id="prompt" maxlength="8000" rows="5" placeholder="Explique-moi comment..." required></textarea><div class="actions"><span id="counter">0 / 8000</span><button id="send" type="submit">Envoyer <span>↗</span></button></div></form>
+    <section id="result" class="result" hidden><div class="result-title">RÉPONSE DE SYRIX <button id="copy" type="button">Copier</button></div><p id="response"></p></section>
+  </main>
   <script>
-    async function askSyrix() {
-      const prompt = document.getElementById("prompt").value;
-      const res = await fetch("/api/syrix", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt })
-      });
-      const data = await res.json();
-      document.getElementById("response").textContent = data.reply;
-    }
+    const form = document.querySelector('#chat-form'), prompt = document.querySelector('#prompt'), response = document.querySelector('#response'), result = document.querySelector('#result'), send = document.querySelector('#send'), status = document.querySelector('#status'), counter = document.querySelector('#counter');
+    prompt.addEventListener('input', () => counter.textContent = `${prompt.value.length} / 8000`);
+    form.addEventListener('submit', async (event) => { event.preventDefault(); const value = prompt.value.trim(); if (!value) return; send.disabled = true; send.textContent = 'Réflexion…'; status.textContent = '● en cours'; result.hidden = false; response.textContent = 'Syrix prépare une réponse…';
+      try { const res = await fetch('/api/syrix', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({prompt:value}) }); const data = await res.json(); if (!res.ok) throw new Error(data.error); response.textContent = data.reply; status.textContent = '● prêt'; } catch (error) { response.textContent = error.message || 'Une erreur est survenue.'; status.textContent = '● indisponible'; } finally { send.disabled = false; send.innerHTML = 'Envoyer <span>↗</span>'; }
+    });
+    document.querySelector('#copy').addEventListener('click', () => navigator.clipboard.writeText(response.textContent));
   </script>
 </body>
 </html>
